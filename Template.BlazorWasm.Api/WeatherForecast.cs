@@ -1,4 +1,4 @@
-namespace Template.BlazorWasm.Shared;
+namespace Template.BlazorWasm.Api;
 
 public class WeatherForecast
 {

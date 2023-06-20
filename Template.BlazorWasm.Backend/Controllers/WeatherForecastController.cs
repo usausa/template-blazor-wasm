@@ -1,7 +1,8 @@
-namespace Template.BlazorWasm.Server.Controllers;
+namespace Template.BlazorWasm.Backend.Controllers;
+
 using Microsoft.AspNetCore.Mvc;
 
-using Template.BlazorWasm.Shared;
+using Template.BlazorWasm.Api;
 
 [ApiController]
 [Route("[controller]")]

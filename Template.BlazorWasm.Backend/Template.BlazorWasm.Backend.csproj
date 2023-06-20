@@ -11,8 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Client\Template.BlazorWasm.Client.csproj" />
-    <ProjectReference Include="..\Shared\Template.BlazorWasm.Shared.csproj" />
+    <ProjectReference Include="..\Template.BlazorWasm.Api\Template.BlazorWasm.Api.csproj" />
+    <ProjectReference Include="..\Template.BlazorWasm.Domain\Template.BlazorWasm.Domain.csproj" />
+    <ProjectReference Include="..\Template.BlazorWasm.Frontend\Template.BlazorWasm.Frontend.csproj" />
   </ItemGroup>
 
 
