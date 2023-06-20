@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33723.286
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Template.BlazorWasm.Server", "Template.BlazorWasm\Server\Template.BlazorWasm.Server.csproj", "{936DD94E-9E54-4445-9079-27A90A6240E7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Template.BlazorWasm.Client", "Template.BlazorWasm\Client\Template.BlazorWasm.Client.csproj", "{D40F49AA-9AD6-437D-A38D-F4D471D1E6FC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Template.BlazorWasm.Shared", "Template.BlazorWasm\Shared\Template.BlazorWasm.Shared.csproj", "{81492F4F-2333-4C7A-A747-6E66FE9BDE57}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ソリューション項目", "ソリューション項目", "{577C8C33-5FEA-4023-8715-D231CA03F06C}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		Analyzers.ruleset = Analyzers.ruleset
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
+		LICENSE = LICENSE
+		README.md = README.md
+		Template.BlazorWasm.sln.DotSettings = Template.BlazorWasm.sln.DotSettings
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{936DD94E-9E54-4445-9079-27A90A6240E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{936DD94E-9E54-4445-9079-27A90A6240E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{936DD94E-9E54-4445-9079-27A90A6240E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{936DD94E-9E54-4445-9079-27A90A6240E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D40F49AA-9AD6-437D-A38D-F4D471D1E6FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D40F49AA-9AD6-437D-A38D-F4D471D1E6FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D40F49AA-9AD6-437D-A38D-F4D471D1E6FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D40F49AA-9AD6-437D-A38D-F4D471D1E6FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81492F4F-2333-4C7A-A747-6E66FE9BDE57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81492F4F-2333-4C7A-A747-6E66FE9BDE57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81492F4F-2333-4C7A-A747-6E66FE9BDE57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81492F4F-2333-4C7A-A747-6E66FE9BDE57}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A9EDF087-8627-4E0D-A518-C6E526AE4988}
+	EndGlobalSection
+EndGlobal

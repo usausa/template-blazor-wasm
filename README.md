@@ -1,1 +1,1 @@
-# template-blazor-wasm
+# Template project for Blazor WebAssembly
