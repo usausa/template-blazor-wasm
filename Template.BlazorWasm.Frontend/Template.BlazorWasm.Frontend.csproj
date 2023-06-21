@@ -2,8 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
+    <CodeAnalysisRuleSet>..\Analyzers.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,8 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Template.BlazorWasm.Api\Template.BlazorWasm.Api.csproj" />
-    <ProjectReference Include="..\Template.BlazorWasm.Domain\Template.BlazorWasm.Domain.csproj" />
+    <ProjectReference Include="..\Template.BlazorWasm.Shared\Template.BlazorWasm.Shared.csproj" />
   </ItemGroup>
 
 </Project>
