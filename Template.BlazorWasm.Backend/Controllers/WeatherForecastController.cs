@@ -16,6 +16,7 @@ public class WeatherForecastController : ControllerBase
     [HttpGet]
     public IEnumerable<WeatherForecast> Get()
     {
+#pragma warning disable CA5394
         return Enumerable.Range(1, 5).Select(index => new WeatherForecast
         {
             Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
@@ -23,5 +24,6 @@ public class WeatherForecastController : ControllerBase
             Summary = Summaries[Random.Shared.Next(Summaries.Length)]
         })
         .ToArray();
+#pragma warning restore CA5394
     }
 }
