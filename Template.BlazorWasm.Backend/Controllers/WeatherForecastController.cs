@@ -8,16 +8,13 @@ using Template.BlazorWasm.Api;
 [Route("[controller]")]
 public class WeatherForecastController : ControllerBase
 {
-    private static readonly string[] Summaries = new[]
-    {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
+    private static readonly string[] Summaries = ["Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"];
 
     [HttpGet]
     public IEnumerable<WeatherForecast> Get()
     {
 #pragma warning disable CA5394
-        return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+        return Enumerable.Range(1, 5).Select(static index => new WeatherForecast
         {
             Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
             TemperatureC = Random.Shared.Next(-20, 55),
