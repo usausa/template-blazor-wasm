@@ -12,11 +12,11 @@
 
   <PropertyGroup>
     <Version>0.0.1</Version>
-    <AnalysisLevel>preview</AnalysisLevel>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+  <PropertyGroup>
     <AnalysisMode>All</AnalysisMode>
+    <AnalysisLevel>preview</AnalysisLevel>
   </PropertyGroup>
 
   <ItemGroup>
