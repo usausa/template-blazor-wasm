@@ -14,5 +14,4 @@
     <ProjectReference Include="..\Template.BlazorWasm.Shared\Template.BlazorWasm.Shared.csproj" />
   </ItemGroup>
 
-
 </Project>
