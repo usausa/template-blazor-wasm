@@ -1,4 +1,4 @@
-namespace Template.BlazorWasm.Backend.Controllers;
+namespace Template.BlazorWasm.Backend.Web.Controllers;
 
 using Microsoft.AspNetCore.Mvc;
 

@@ -19,7 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Template.BlazorWasm.Frontend", "Template.BlazorWasm.Frontend\Template.BlazorWasm.Frontend.csproj", "{C9249426-F6F3-44BE-B61D-B2CFE4F43D7C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Template.BlazorWasm.Backend", "Template.BlazorWasm.Backend\Template.BlazorWasm.Backend.csproj", "{BD30A61F-15DB-4DDE-877E-50DF81A5C590}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Template.BlazorWasm.Backend.Web", "Template.BlazorWasm.Backend.Web\Template.BlazorWasm.Backend.Web.csproj", "{BD30A61F-15DB-4DDE-877E-50DF81A5C590}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Template.BlazorWasm.Shared", "Template.BlazorWasm.Shared\Template.BlazorWasm.Shared.csproj", "{F96BBC80-3946-4AFE-81AF-08BA32D18672}"
 EndProject
