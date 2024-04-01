@@ -44,4 +44,3 @@ global using StringValuesBinder;
 // TODO
 global using Template.BlazorWasm.Api;
 global using Template.BlazorWasm.Domain;
-//global using Template.BlazorWasm.Frontend.Infrastructure.Validation;
