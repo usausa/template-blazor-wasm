@@ -10,8 +10,4 @@
     <PackageReference Include="Usa.Smart.Core" Version="2.3.3" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Template.BlazorWasm.Domain\Template.BlazorWasm.Domain.csproj" />
-  </ItemGroup>
-
 </Project>

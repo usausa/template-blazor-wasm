@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>Template.BlazorWasm</RootNamespace>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <CodeAnalysisRuleSet>..\Analyzers.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="bunit" Version="1.27.17" />
+    <PackageReference Include="coverlet.collector" Version="6.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
+    <PackageReference Include="Usa.Smart.Mock.Data" Version="2.3.0" />
+    <PackageReference Include="xunit" Version="2.7.0" />
+    <PackageReference Include="xunit.analyzers" Version="1.11.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.5.7">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Template.BlazorWasm.Backend.Core\Template.BlazorWasm.Backend.Core.csproj" />
+    <ProjectReference Include="..\Template.BlazorWasm.Backend.Web\Template.BlazorWasm.Backend.Web.csproj" />
+    <ProjectReference Include="..\Template.BlazorWasm.Domain\Template.BlazorWasm.Domain.csproj" />
+    <ProjectReference Include="..\Template.BlazorWasm.Frontend\Template.BlazorWasm.Frontend.csproj" />
+    <ProjectReference Include="..\Template.BlazorWasm.Shared\Template.BlazorWasm.Shared.csproj" />
+  </ItemGroup>
+
+</Project>
