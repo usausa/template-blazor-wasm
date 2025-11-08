@@ -13,7 +13,7 @@
   </Folder>
   <Folder Name="/Backend/">
     <Project Path="Template.BlazorWasm.Backend.Core/Template.BlazorWasm.Backend.Core.csproj" />
-    <Project Path="Template.BlazorWasm.Backend.Web/Template.BlazorWasm.Backend.Web.csproj" />
+    <Project Path="Template.BlazorWasm.Backend.Web/Template.BlazorWasm.Backend.Web.csproj" DefaultStartup="true" />
   </Folder>
   <Folder Name="/Frontend/">
     <Project Path="Template.BlazorWasm.Frontend/Template.BlazorWasm.Frontend.csproj" />
