@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
@@ -8,10 +8,6 @@
 
   <ItemGroup>
     <PackageReference Include="Usa.Smart.Core" Version="2.16.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="Usa.Smart.Analyzers.JapaneseComment" Version="1.10.0" />
   </ItemGroup>
 
 </Project>
