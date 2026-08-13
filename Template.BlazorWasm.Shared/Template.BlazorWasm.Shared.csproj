@@ -7,11 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Usa.Smart.Core" Version="2.9.0" />
+    <PackageReference Include="Usa.Smart.Core" Version="2.16.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Template.BlazorWasm.Domain\Template.BlazorWasm.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Usa.Smart.Analyzers.JapaneseComment" Version="1.10.0" />
   </ItemGroup>
 
 </Project>
