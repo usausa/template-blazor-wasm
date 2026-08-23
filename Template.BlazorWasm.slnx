@@ -1,30 +1,34 @@
 <Solution>
+  <Folder Name="/Aspire/">
+    <Project Path="Template.BlazorWasm.AppHost/Template.BlazorWasm.AppHost.csproj" />
+  </Folder>
+  <Project Path="Template.BlazorWasm.Domain/Template.BlazorWasm.Domain.csproj" />
+  <Project Path="Template.BlazorWasm.Contracts/Template.BlazorWasm.Contracts.csproj" />
+  <Folder Name="/Backend/">
+    <Project Path="Template.BlazorWasm.Backend.Core/Template.BlazorWasm.Backend.Core.csproj" />
+    <Project Path="Template.BlazorWasm.Backend.Host/Template.BlazorWasm.Backend.Host.csproj" />
+  </Folder>
+  <Folder Name="/Frontend/">
+    <Project Path="Template.BlazorWasm.Frontend.App/Template.BlazorWasm.Frontend.App.csproj" />
+  </Folder>
+  <Folder Name="/Test/">
+    <Project Path="Template.BlazorWasm.UnitTests/Template.BlazorWasm.UnitTests.csproj" />
+    <Project Path="Template.BlazorWasm.IntegrationTests/Template.BlazorWasm.IntegrationTests.csproj" />
+    <Project Path="Template.BlazorWasm.E2ETests/Template.BlazorWasm.E2ETests.csproj" />
+  </Folder>
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
     <File Path=".gitattributes" />
     <File Path=".gitignore" />
     <File Path="AGENTS.md" />
     <File Path="Analyzers.ruleset" />
-    <File Path="CLAUDE.md" />
     <File Path="CodeCoverage.runsettings" />
+    <File Path="Database.sql" />
+    <File Path="Database.Sample.sql" />
     <File Path="Directory.Build.props" />
     <File Path="Directory.Build.targets" />
     <File Path="LICENSE" />
     <File Path="README.md" />
     <File Path="Template.BlazorWasm.sln.DotSettings" />
-  </Folder>
-  <Folder Name="/Backend/">
-    <Project Path="Template.BlazorWasm.Backend.Core/Template.BlazorWasm.Backend.Core.csproj" />
-    <Project Path="Template.BlazorWasm.Backend.Web/Template.BlazorWasm.Backend.Web.csproj" DefaultStartup="true" />
-  </Folder>
-  <Folder Name="/Frontend/">
-    <Project Path="Template.BlazorWasm.Frontend/Template.BlazorWasm.Frontend.csproj" />
-  </Folder>
-  <Folder Name="/Shared/">
-    <Project Path="Template.BlazorWasm.Domain/Template.BlazorWasm.Domain.csproj" />
-    <Project Path="Template.BlazorWasm.Shared/Template.BlazorWasm.Shared.csproj" />
-  </Folder>
-  <Folder Name="/Test/">
-    <Project Path="Template.BlazorWasm.Tests/Template.BlazorWasm.Tests.csproj" />
   </Folder>
 </Solution>

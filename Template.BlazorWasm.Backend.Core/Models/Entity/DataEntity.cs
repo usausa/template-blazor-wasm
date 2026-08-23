@@ -1,8 +1,12 @@
-namespace Template.BlazorWasm.Backend.Models.Entity;
+namespace Template.BlazorWasm.Models.Entity;
 
-public class DataEntity
+public sealed class DataEntity
 {
-    public int Id { get; set; }
+    public long Id { get; set; }
 
     public string Name { get; set; } = default!;
+
+    public int Value { get; set; }
+
+    public DateTime CreatedAt { get; set; }
 }

@@ -1,0 +1,21 @@
+<Router AppAssembly="@typeof(App).Assembly">
+    <Found Context="routeData">
+        <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+            <NotAuthorized>
+                <RedirectToLogin />
+            </NotAuthorized>
+            <Authorizing>
+                <div class="boot">
+                    <div class="boot-title">TEMPLATE</div>
+                    <div class="boot-note">Authorizing...</div>
+                </div>
+            </Authorizing>
+        </AuthorizeRouteView>
+    </Found>
+    <NotFound>
+        <PageTitle>Not found - テンプレート</PageTitle>
+        <LayoutView Layout="@typeof(MainLayout)">
+            <FluentLabel Typo="Typography.H4">ページが見つかりません</FluentLabel>
+        </LayoutView>
+    </NotFound>
+</Router>

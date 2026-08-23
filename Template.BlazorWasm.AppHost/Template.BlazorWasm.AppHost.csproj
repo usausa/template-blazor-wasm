@@ -1,0 +1,19 @@
+<Project Sdk="Aspire.AppHost.Sdk/13.4.6">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <CodeAnalysisRuleSet>..\Analyzers.ruleset</CodeAnalysisRuleSet>
+    <UserSecretsId>7c2f89a1-30de-46e5-8d10-64e2b4a5c7f3</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Transitive pin: GHSA-hv8m-jj95-wg3x -->
+    <PackageReference Include="MessagePack" Version="3.1.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Template.BlazorWasm.Backend.Host\Template.BlazorWasm.Backend.Host.csproj" />
+  </ItemGroup>
+
+</Project>

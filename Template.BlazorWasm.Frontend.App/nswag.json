@@ -1,0 +1,36 @@
+{
+  "runtime": "Net100",
+  "documentGenerator": {
+    "fromDocument": {
+      "url": "../openapi/v1.json"
+    }
+  },
+  "codeGenerators": {
+    "openApiToCSharpClient": {
+      "className": "ApiClient",
+      "namespace": "Template.BlazorWasm.Frontend.App.Services",
+      "generateClientInterfaces": false,
+      "generateDtoTypes": true,
+      "excludedTypeNames": [
+        "LoginRequest",
+        "LoginResponse",
+        "DataResponse",
+        "DataListResponse",
+        "DataCreateRequest",
+        "DataCreateResponse",
+        "DataUpdateRequest"
+      ],
+      "additionalNamespaceUsages": [
+        "Template.BlazorWasm.Contracts.Auth",
+        "Template.BlazorWasm.Contracts.Data"
+      ],
+      "injectHttpClient": true,
+      "disposeHttpClient": false,
+      "useBaseUrl": false,
+      "jsonLibrary": "SystemTextJson",
+      "generateOptionalParameters": true,
+      "operationGenerationMode": "SingleClientFromOperationId",
+      "output": "Services/ApiClient.g.cs"
+    }
+  }
+}

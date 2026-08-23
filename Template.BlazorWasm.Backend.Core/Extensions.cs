@@ -1,4 +1,4 @@
-namespace Template.BlazorWasm.Backend;
+namespace Template.BlazorWasm;
 
 public static class Extensions
 {

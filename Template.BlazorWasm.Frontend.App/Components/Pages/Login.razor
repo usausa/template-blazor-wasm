@@ -1,0 +1,18 @@
+@page "/login"
+
+<PageTitle>ログイン - テンプレート</PageTitle>
+
+<div class="login-container">
+    <FluentCard Width="360px">
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="12">
+            <FluentLabel Typo="Typography.H4">ログイン</FluentLabel>
+            <FluentTextField @bind-Value="name" Label="ID" Style="width: 100%;" />
+            <FluentTextField @bind-Value="password" TextFieldType="TextFieldType.Password" Label="パスワード" Style="width: 100%;" />
+            @if (errorMessage is not null)
+            {
+                <FluentMessageBar Title="@errorMessage" Intent="MessageIntent.Error" AllowDismiss="false" />
+            }
+            <FluentButton Appearance="Appearance.Accent" Loading="@processing" OnClick="OnLoginClickAsync" Style="width: 100%;">ログイン</FluentButton>
+        </FluentStack>
+    </FluentCard>
+</div>
