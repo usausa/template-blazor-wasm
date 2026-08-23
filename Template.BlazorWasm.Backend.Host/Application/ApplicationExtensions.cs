@@ -8,7 +8,6 @@ using System.Text.RegularExpressions;
 using System.Text.Unicode;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Components.WebAssembly.Server;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -39,6 +38,7 @@ using Template.BlazorWasm.Backend.Host.Infrastructure.ExceptionHandling;
 using Template.BlazorWasm.Backend.Host.Infrastructure.HealthChecks;
 using Template.BlazorWasm.Backend.Host.Infrastructure.Logging;
 using Template.BlazorWasm.Infrastructure.Security;
+using Template.BlazorWasm.Infrastructure.Storage;
 
 public static class ApplicationExtensions
 {
@@ -208,9 +208,13 @@ public static class ApplicationExtensions
                 options.MapInboundClaims = false;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
+                    ValidateIssuer = true,
                     ValidIssuer = setting.Issuer,
+                    ValidateAudience = true,
                     ValidAudience = setting.Audience,
+                    ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(setting.SecretKey)),
+                    ValidateLifetime = true,
                     NameClaimType = JwtRegisteredClaimNames.Sub,
                     RoleClaimType = "role",
                     ClockSkew = TimeSpan.FromSeconds(30)
@@ -236,7 +240,7 @@ public static class ApplicationExtensions
             // NSwagクライアント生成のため3.0で出力(NSwagのOpenAPI 3.1入力対応は途上)
             options.OpenApiVersion = Microsoft.OpenApi.OpenApiSpecVersion.OpenApi3_0;
 
-            options.AddDocumentTransformer(static (document, context, cancellationToken) =>
+            options.AddDocumentTransformer(static (document, _, _) =>
             {
                 document.Info.Title = "Template API";
                 document.Info.Version = "v1";
@@ -389,6 +393,11 @@ public static class ApplicationExtensions
         // Cache
         builder.Services.AddMemoryCache();
 
+        // Storage
+        builder.Services.AddOptions<FileStorageOptions>().BindConfiguration("Storage").ValidateDataAnnotations().ValidateOnStart();
+        builder.Services.AddSingleton(static p => p.GetRequiredService<IOptions<FileStorageOptions>>().Value);
+        builder.Services.AddSingleton<IStorage, FileStorage>();
+
         // Security
         builder.Services.AddSingleton(new DefaultPasswordProviderOptions());
         builder.Services.AddSingleton<IPasswordProvider, DefaultPasswordProvider>();
@@ -458,6 +467,8 @@ public static class ApplicationExtensions
 
         // Auth
         app.MapAuthEndpoints();
+        app.MapFeatureEndpoints();
+        app.MapFileEndpoints();
 
         // API
         app.MapDataEndpoints();
@@ -480,16 +491,19 @@ public static class ApplicationExtensions
     // Startup
     //--------------------------------------------------------------------------------
 
-    public static async ValueTask InitializeApplicationAsync(this WebApplication app)
+    public static ValueTask InitializeApplicationAsync(this WebApplication app)
     {
         // Prepare instrument
         app.Services.GetRequiredService<ApplicationInstrument>();
+
+        // Prepare storage
+        Directory.CreateDirectory(app.Services.GetRequiredService<FileStorageOptions>().Root);
 
         // Prepare database
         app.Services.GetRequiredService<DataService>().CreateTable();
 
         var setting = app.Services.GetRequiredService<AuthSetting>();
-        await app.Services.GetRequiredService<AccountService>().InitializeAsync(setting.InitialId, setting.InitialPassword, Roles.Administrator);
+        return app.Services.GetRequiredService<AccountService>().InitializeAsync(setting.InitialId, setting.InitialPassword, Roles.Administrator);
     }
 
     //--------------------------------------------------------------------------------

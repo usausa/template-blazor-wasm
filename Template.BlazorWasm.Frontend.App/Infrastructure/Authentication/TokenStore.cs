@@ -21,15 +21,15 @@ public sealed class TokenStore
         return token;
     }
 
-    public async ValueTask SetTokenAsync(string value)
+    public ValueTask SetTokenAsync(string value)
     {
         token = value;
-        await jsRuntime.InvokeVoidAsync("sessionStorage.setItem", StorageKey, value);
+        return jsRuntime.InvokeVoidAsync("sessionStorage.setItem", StorageKey, value);
     }
 
-    public async ValueTask ClearAsync()
+    public ValueTask ClearAsync()
     {
         token = null;
-        await jsRuntime.InvokeVoidAsync("sessionStorage.removeItem", StorageKey);
+        return jsRuntime.InvokeVoidAsync("sessionStorage.removeItem", StorageKey);
     }
 }

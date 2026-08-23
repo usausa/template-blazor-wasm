@@ -1,7 +1,5 @@
 namespace Template.BlazorWasm.Components.Layout;
 
-using Bunit;
-
 using Template.BlazorWasm.Frontend.App.Components.Layout;
 
 public sealed class NavMenuTest : FluentUITestBase

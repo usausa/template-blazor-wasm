@@ -4,7 +4,7 @@ using Microsoft.FluentUI.AspNetCore.Components;
 
 using Template.BlazorWasm.Frontend.App.Models;
 
-public partial class DataEditDialog : IDialogContentComponent<DataEditForm>
+public partial class DataEditDialog
 {
     [Parameter]
     public DataEditForm Content { get; set; } = default!;
@@ -12,18 +12,9 @@ public partial class DataEditDialog : IDialogContentComponent<DataEditForm>
     [CascadingParameter]
     public FluentDialog Dialog { get; set; } = default!;
 
-    private async Task OnSaveClickAsync()
-    {
-        if (String.IsNullOrWhiteSpace(Content.Name))
-        {
-            return;
-        }
+    private Task OnSaveClickAsync() =>
+        String.IsNullOrWhiteSpace(Content.Name) ? Task.CompletedTask : Dialog.CloseAsync(Content);
 
-        await Dialog.CloseAsync(Content);
-    }
-
-    private async Task OnCancelClickAsync()
-    {
-        await Dialog.CancelAsync();
-    }
+    private Task OnCancelClickAsync() =>
+        Dialog.CancelAsync();
 }

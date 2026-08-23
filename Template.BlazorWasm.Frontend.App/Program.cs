@@ -1,10 +1,7 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.FluentUI.AspNetCore.Components;
 
-using Template.BlazorWasm.Frontend.App.Infrastructure.Authentication;
-using Template.BlazorWasm.Frontend.App.Services;
 
 //--------------------------------------------------------------------------------
 // Configure builder

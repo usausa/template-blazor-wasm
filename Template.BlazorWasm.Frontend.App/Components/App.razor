@@ -1,4 +1,4 @@
-<Router AppAssembly="@typeof(App).Assembly">
+<Router AppAssembly="@typeof(App).Assembly" NotFoundPage="typeof(Pages.NotFound)">
     <Found Context="routeData">
         <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
             <NotAuthorized>
@@ -12,10 +12,4 @@
             </Authorizing>
         </AuthorizeRouteView>
     </Found>
-    <NotFound>
-        <PageTitle>Not found - テンプレート</PageTitle>
-        <LayoutView Layout="@typeof(MainLayout)">
-            <FluentLabel Typo="Typography.H4">ページが見つかりません</FluentLabel>
-        </LayoutView>
-    </NotFound>
 </Router>
