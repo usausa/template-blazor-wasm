@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.FluentUI.AspNetCore.Components;
 
+using Microsoft.FluentUI.AspNetCore.Components;
 
 //--------------------------------------------------------------------------------
 // Configure builder
