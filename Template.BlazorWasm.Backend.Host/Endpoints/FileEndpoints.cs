@@ -17,9 +17,19 @@ public static class FileEndpoints
             .RequireAuthorization()
             .AddEndpointFilter<StorageExceptionFilter>();
 
-        group.MapGet("/list/{**path}", HandleListAsync);
-        group.MapGet("/download/{**path}", HandleDownloadAsync);
-        group.MapDelete("/{**path}", HandleDeleteAsync).RequireAuthorization(Policies.Administrator);
+        group.MapGet("/list/{**path}", HandleListAsync)
+            .WithName("ListFiles")
+            .Produces<FileListResponse>()
+            .Produces(StatusCodes.Status404NotFound);
+        group.MapGet("/download/{**path}", HandleDownloadAsync)
+            .WithName("DownloadFile")
+            .Produces(StatusCodes.Status200OK, contentType: "application/octet-stream")
+            .Produces(StatusCodes.Status404NotFound);
+        group.MapDelete("/{**path}", HandleDeleteAsync)
+            .RequireAuthorization(Policies.Administrator)
+            .WithName("DeleteFile")
+            .Produces(StatusCodes.Status204NoContent)
+            .Produces(StatusCodes.Status404NotFound);
     }
 
     //--------------------------------------------------------------------------------

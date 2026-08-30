@@ -10,10 +10,20 @@
     <SelfContained>true</SelfContained>
   </PropertyGroup>
 
-  <!-- NSwagクライアント生成用にOpenAPIドキュメントをビルド時出力 -->
+  <!-- NSwagクライアント生成用にOpenAPIドキュメントをビルド時出力(出力先は既定のobj配下=ソース管理対象外) -->
   <PropertyGroup>
-    <OpenApiDocumentsDirectory>..\openapi</OpenApiDocumentsDirectory>
+    <!-- NSwag.AspNetCoreがビルド時生成を既定で無効化するため明示的に有効化 -->
+    <OpenApiGenerateDocumentsOnBuild>true</OpenApiGenerateDocumentsOnBuild>
+    <!-- 出力ファイル名を既定のプロジェクト名からv1に変更(nswag.jsonの入力と一致させる) -->
+    <OpenApiGenerateDocumentsOptions>--file-name v1</OpenApiGenerateDocumentsOptions>
   </PropertyGroup>
+
+  <!-- アプリがStartup時にカレントディレクトリを変更するため、生成キャッシュの相対パスを絶対パス化 -->
+  <Target Name="ResolveOpenApiDocumentsCachePath" BeforeTargets="GenerateOpenApiDocuments">
+    <PropertyGroup>
+      <_OpenApiDocumentsCache Condition=" !$([System.IO.Path]::IsPathRooted('$(_OpenApiDocumentsCache)')) ">$(MSBuildProjectDirectory)\$(_OpenApiDocumentsCache)</_OpenApiDocumentsCache>
+    </PropertyGroup>
+  </Target>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.11" />

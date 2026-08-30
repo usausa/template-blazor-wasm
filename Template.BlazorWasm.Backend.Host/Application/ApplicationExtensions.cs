@@ -1,6 +1,7 @@
 namespace Template.BlazorWasm.Backend.Host.Application;
 
 using System.Diagnostics;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text.Encodings.Web;
 using System.Text.Json.Serialization;
@@ -11,6 +12,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.FeatureManagement;
@@ -230,6 +232,29 @@ public static class ApplicationExtensions
     }
 
     //--------------------------------------------------------------------------------
+    // Compress
+    //--------------------------------------------------------------------------------
+
+    public static IHostApplicationBuilder ConfigureCompression(this IHostApplicationBuilder builder)
+    {
+        builder.Services.AddResponseCompression(static options =>
+        {
+            options.EnableForHttps = true;
+            options.Providers.Add<BrotliCompressionProvider>();
+            options.Providers.Add<GzipCompressionProvider>();
+        });
+
+        return builder;
+    }
+
+    public static WebApplication UseCompression(this WebApplication app)
+    {
+        app.UseResponseCompression();
+
+        return app;
+    }
+
+    //--------------------------------------------------------------------------------
     // OpenApi
     //--------------------------------------------------------------------------------
 
@@ -276,7 +301,9 @@ public static class ApplicationExtensions
 
         var prometheusSection = builder.Configuration.GetSection("Prometheus");
         var prometheusUri = prometheusSection.GetValue<string>("Uri")!;
-        var usePrometheusExporter = !String.IsNullOrEmpty(prometheusUri);
+        // Prometheus HttpListener cannot be started during build-time OpenAPI document generation
+        var isDocumentGeneration = Assembly.GetEntryAssembly()?.GetName().Name == "GetDocument.Insider";
+        var usePrometheusExporter = !String.IsNullOrEmpty(prometheusUri) && !isDocumentGeneration;
 
         var telemetry = builder.Services.AddOpenTelemetry()
             .ConfigureResource(config =>
