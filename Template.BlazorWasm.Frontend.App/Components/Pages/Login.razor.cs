@@ -1,5 +1,6 @@
 namespace Template.BlazorWasm.Frontend.App.Components.Pages;
 
+#pragma warning disable CA1056
 public partial class Login
 {
     private string name = string.Empty;
@@ -53,3 +54,4 @@ public partial class Login
         }
     }
 }
+#pragma warning restore CA1056
