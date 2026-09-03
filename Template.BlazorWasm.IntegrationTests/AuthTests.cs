@@ -3,11 +3,11 @@ namespace Template.BlazorWasm;
 using Template.BlazorWasm.Contracts.Auth;
 using Template.BlazorWasm.Contracts.Data;
 
-public sealed class AuthTest : IClassFixture<TestApplicationFactory>
+public sealed class AuthTests : IClassFixture<TestApplicationFactory>
 {
     private readonly TestApplicationFactory factory;
 
-    public AuthTest(TestApplicationFactory factory)
+    public AuthTests(TestApplicationFactory factory)
     {
         this.factory = factory;
     }

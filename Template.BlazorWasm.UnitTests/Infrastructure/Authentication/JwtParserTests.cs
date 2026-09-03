@@ -5,7 +5,7 @@ using System.Text.Json;
 
 using Template.BlazorWasm.Frontend.App.Infrastructure.Authentication;
 
-public sealed class JwtParserTest
+public sealed class JwtParserTests
 {
     private static readonly DateTimeOffset Now = new(2026, 8, 21, 0, 0, 0, TimeSpan.Zero);
 
