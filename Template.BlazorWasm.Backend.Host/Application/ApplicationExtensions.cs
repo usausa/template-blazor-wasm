@@ -530,6 +530,7 @@ public static class ApplicationExtensions
 
         // Prepare database
         app.Services.GetRequiredService<DataService>().CreateTable();
+        app.Services.GetRequiredService<RefreshTokenService>().CreateTable();
 
         var setting = app.Services.GetRequiredService<AuthSetting>();
         return app.Services.GetRequiredService<AccountService>().InitializeAsync(setting.InitialId, setting.InitialPassword, Roles.Administrator);

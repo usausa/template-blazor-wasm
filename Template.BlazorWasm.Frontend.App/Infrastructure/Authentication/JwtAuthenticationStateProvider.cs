@@ -6,26 +6,40 @@ public sealed class JwtAuthenticationStateProvider : AuthenticationStateProvider
 
     private readonly TokenStore tokenStore;
 
+    private readonly TokenRefreshService tokenRefreshService;
+
     private readonly TimeProvider timeProvider;
 
-    public JwtAuthenticationStateProvider(TokenStore tokenStore, TimeProvider timeProvider)
+    public JwtAuthenticationStateProvider(
+        TokenStore tokenStore,
+        TokenRefreshService tokenRefreshService,
+        TimeProvider timeProvider)
     {
         this.tokenStore = tokenStore;
+        this.tokenRefreshService = tokenRefreshService;
         this.timeProvider = timeProvider;
     }
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
         var token = await tokenStore.GetTokenAsync();
-        if (String.IsNullOrEmpty(token))
+        var principal = String.IsNullOrEmpty(token) ? null : JwtParser.Parse(token, timeProvider.GetUtcNow());
+        if (principal is not null)
         {
+            return new AuthenticationState(principal);
+        }
+
+        // 失効・不正トークンはリフレッシュを試み、更新できなければ未認証へ
+        var refreshed = await tokenRefreshService.RefreshAsync(token);
+        if (String.IsNullOrEmpty(refreshed))
+        {
+            await tokenStore.ClearAsync();
             return Anonymous;
         }
 
-        var principal = JwtParser.Parse(token, timeProvider.GetUtcNow());
+        principal = JwtParser.Parse(refreshed, timeProvider.GetUtcNow());
         if (principal is null)
         {
-            // 失効・不正トークンは破棄して未認証へ
             await tokenStore.ClearAsync();
             return Anonymous;
         }

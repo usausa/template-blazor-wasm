@@ -42,6 +42,57 @@ public sealed class AuthTests : IClassFixture<TestApplicationFactory>
     }
 
     [Fact]
+    public async Task RefreshReturnsNewTokenAndRotates()
+    {
+        // Arrange
+        var client = factory.CreateClient();
+        var login = await client.PostAsJsonAsync(new Uri("/api/auth/login", UriKind.Relative), new LoginRequest("admin", "admin"), TestContext.Current.CancellationToken);
+        var issued = (await login.Content.ReadFromJsonAsync<LoginResponse>(TestContext.Current.CancellationToken))!;
+
+        // Act
+        var response = await client.PostAsJsonAsync(new Uri("/api/auth/refresh", UriKind.Relative), new RefreshRequest(issued.RefreshToken), TestContext.Current.CancellationToken);
+        var refreshed = await response.Content.ReadFromJsonAsync<LoginResponse>(TestContext.Current.CancellationToken);
+        var reuse = await client.PostAsJsonAsync(new Uri("/api/auth/refresh", UriKind.Relative), new RefreshRequest(issued.RefreshToken), TestContext.Current.CancellationToken);
+
+        // Assert
+        response.EnsureSuccessStatusCode();
+        Assert.NotNull(refreshed);
+        Assert.False(String.IsNullOrEmpty(refreshed.Token));
+        Assert.NotEqual(issued.RefreshToken, refreshed.RefreshToken);
+        Assert.Equal(HttpStatusCode.Unauthorized, reuse.StatusCode);
+    }
+
+    [Fact]
+    public async Task RefreshWithInvalidTokenReturnsUnauthorized()
+    {
+        // Arrange
+        var client = factory.CreateClient();
+
+        // Act
+        var response = await client.PostAsJsonAsync(new Uri("/api/auth/refresh", UriKind.Relative), new RefreshRequest("invalid-token"), TestContext.Current.CancellationToken);
+
+        // Assert
+        Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task LogoutRevokesRefreshToken()
+    {
+        // Arrange
+        var client = factory.CreateClient();
+        var login = await client.PostAsJsonAsync(new Uri("/api/auth/login", UriKind.Relative), new LoginRequest("admin", "admin"), TestContext.Current.CancellationToken);
+        var issued = (await login.Content.ReadFromJsonAsync<LoginResponse>(TestContext.Current.CancellationToken))!;
+
+        // Act
+        var logout = await client.PostAsJsonAsync(new Uri("/api/auth/logout", UriKind.Relative), new RefreshRequest(issued.RefreshToken), TestContext.Current.CancellationToken);
+        var refresh = await client.PostAsJsonAsync(new Uri("/api/auth/refresh", UriKind.Relative), new RefreshRequest(issued.RefreshToken), TestContext.Current.CancellationToken);
+
+        // Assert
+        Assert.Equal(HttpStatusCode.NoContent, logout.StatusCode);
+        Assert.Equal(HttpStatusCode.Unauthorized, refresh.StatusCode);
+    }
+
+    [Fact]
     public async Task DataApiWorksWithToken()
     {
         // Arrange

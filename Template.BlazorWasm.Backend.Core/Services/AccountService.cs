@@ -34,6 +34,9 @@ public sealed class AccountService
         }
     }
 
+    public ValueTask<AccountEntity?> QueryAsync(string name) =>
+        accountAccessor.QueryByNameAsync(name);
+
     public async ValueTask<AccountEntity?> AuthenticateAsync(string name, string password)
     {
         var account = await accountAccessor.QueryByNameAsync(name);

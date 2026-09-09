@@ -18,6 +18,7 @@ builder.Services.AddSingleton(TimeProvider.System);
 builder.Services.AddAuthorizationCore();
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<TokenStore>();
+builder.Services.AddScoped<TokenRefreshService>();
 builder.Services.AddScoped<JwtAuthenticationStateProvider>();
 builder.Services.AddScoped<AuthenticationStateProvider>(static p => p.GetRequiredService<JwtAuthenticationStateProvider>());
 
@@ -26,6 +27,8 @@ builder.Services.AddScoped<JwtAuthorizationMessageHandler>();
 builder.Services
     .AddHttpClient(ApiClientNames.Default, client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress))
     .AddHttpMessageHandler<JwtAuthorizationMessageHandler>();
+// トークン更新用(認証ハンドラーを通さないため更新処理が再帰しない)
+builder.Services.AddHttpClient(ApiClientNames.Refresh, client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
 builder.Services.AddScoped(static p => new ApiClient(p.GetRequiredService<IHttpClientFactory>().CreateClient(ApiClientNames.Default)));
 
 // UI

@@ -39,7 +39,7 @@ public partial class Login
         try
         {
             var response = await ApiClient.LoginAsync(new LoginRequest(name, password));
-            await TokenStore.SetTokenAsync(response.Token);
+            await TokenStore.SetTokenAsync(response.Token, response.RefreshToken);
             AuthenticationStateProvider.NotifyStateChanged();
 
             Navigation.NavigateTo(String.IsNullOrEmpty(ReturnUrl) ? string.Empty : ReturnUrl);

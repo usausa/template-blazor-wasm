@@ -4,11 +4,15 @@ using Microsoft.JSInterop;
 
 public sealed class TokenStore
 {
-    private const string StorageKey = "authToken";
+    private const string TokenKey = "authToken";
+
+    private const string RefreshTokenKey = "authRefreshToken";
 
     private readonly IJSRuntime jsRuntime;
 
     private string? token;
+
+    private string? refreshToken;
 
     public TokenStore(IJSRuntime jsRuntime)
     {
@@ -17,19 +21,29 @@ public sealed class TokenStore
 
     public async ValueTask<string?> GetTokenAsync()
     {
-        token ??= await jsRuntime.InvokeAsync<string?>("sessionStorage.getItem", StorageKey);
+        token ??= await jsRuntime.InvokeAsync<string?>("sessionStorage.getItem", TokenKey);
         return token;
     }
 
-    public ValueTask SetTokenAsync(string value)
+    public async ValueTask<string?> GetRefreshTokenAsync()
     {
-        token = value;
-        return jsRuntime.InvokeVoidAsync("sessionStorage.setItem", StorageKey, value);
+        refreshToken ??= await jsRuntime.InvokeAsync<string?>("sessionStorage.getItem", RefreshTokenKey);
+        return refreshToken;
     }
 
-    public ValueTask ClearAsync()
+    public async ValueTask SetTokenAsync(string value, string refreshValue)
+    {
+        token = value;
+        refreshToken = refreshValue;
+        await jsRuntime.InvokeVoidAsync("sessionStorage.setItem", TokenKey, value);
+        await jsRuntime.InvokeVoidAsync("sessionStorage.setItem", RefreshTokenKey, refreshValue);
+    }
+
+    public async ValueTask ClearAsync()
     {
         token = null;
-        return jsRuntime.InvokeVoidAsync("sessionStorage.removeItem", StorageKey);
+        refreshToken = null;
+        await jsRuntime.InvokeVoidAsync("sessionStorage.removeItem", TokenKey);
+        await jsRuntime.InvokeVoidAsync("sessionStorage.removeItem", RefreshTokenKey);
     }
 }
