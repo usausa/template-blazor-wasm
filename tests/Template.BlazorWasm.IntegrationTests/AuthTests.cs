@@ -118,6 +118,7 @@ public sealed class AuthTests : IClassFixture<TestApplicationFactory>
         Assert.Single(list.Items);
         Assert.Equal("IntegrationItem", list.Items[0].Name);
     }
+
     [Fact]
     public async Task DataApiSortsByRequestedColumn()
     {
