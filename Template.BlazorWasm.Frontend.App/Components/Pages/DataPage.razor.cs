@@ -29,7 +29,16 @@ public partial class DataPage
         itemsProvider = async request =>
         {
             var page = request.StartIndex / pagination.ItemsPerPage;
-            var result = await ApiClient.ListDataAsync(searchName, page, pagination.ItemsPerPage, request.CancellationToken);
+
+            // 並べ替えはサーバー側で行うため、グリッドが選んだ列と昇降をAPIへ渡す
+            var sorted = request.GetSortByProperties().FirstOrDefault();
+            var result = await ApiClient.ListDataAsync(
+                searchName,
+                sorted.PropertyName,
+                sorted.Direction == SortDirection.Descending,
+                page,
+                pagination.ItemsPerPage,
+                request.CancellationToken);
             return GridItemsProviderResult.From(result.Items.ToList(), result.Total);
         };
     }

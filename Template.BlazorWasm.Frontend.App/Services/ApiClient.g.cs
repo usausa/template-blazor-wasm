@@ -604,7 +604,7 @@ namespace Template.BlazorWasm.Frontend.App.Services
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<DataListResponse> ListDataAsync(string name = null, int? page = null, int? size = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<DataListResponse> ListDataAsync(string name = null, string sort = null, bool? desc = null, int? page = null, int? size = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -623,6 +623,14 @@ namespace Template.BlazorWasm.Frontend.App.Services
                     if (name != null)
                     {
                         urlBuilder_.Append(System.Uri.EscapeDataString("name")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(name, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (sort != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("sort")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(sort, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (desc != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("desc")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(desc, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
                     }
                     if (page != null)
                     {
