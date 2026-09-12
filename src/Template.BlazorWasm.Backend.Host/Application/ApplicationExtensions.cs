@@ -434,7 +434,7 @@ public static class ApplicationExtensions
         // Token
         builder.Services.AddSingleton<TokenService>();
 
-        // Service & Usecase
+        // Service
         builder.Services.AddCoreServices();
 
         // Setting
