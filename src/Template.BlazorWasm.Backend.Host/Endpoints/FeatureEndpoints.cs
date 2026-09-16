@@ -14,7 +14,7 @@ public static class FeatureEndpoints
 
     public static void MapFeatureEndpoints(this WebApplication app)
     {
-        var group = app.MapGroup(ApiRoutes.Features);
+        var group = app.MapApiGroup(ApiRoutes.Features);
 
         group.MapGet("/", HandleGetAsync)
             .WithName("GetFeatures")
