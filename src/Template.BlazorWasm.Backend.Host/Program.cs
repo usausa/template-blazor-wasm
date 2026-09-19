@@ -49,14 +49,17 @@ app.LogStartupInformation();
 // Forwarded headers
 app.UseForwardedHeaders();
 
+// W3C log
+app.UseW3CLog();
+
 // Error handler
 app.UseErrorHandler();
 
 // Compression
 app.UseCompression();
 
-// Logging
-app.UseLogging();
+// HTTP log
+app.UseHttpLog();
 
 // Static files (Blazor WebAssembly assets)
 app.UseBlazorFrameworkFiles();
@@ -65,9 +68,6 @@ app.UseStaticFiles();
 // Authentication
 app.UseAuthentication();
 app.UseAuthorization();
-
-// Logging context
-app.UseLoggingContext();
 
 // End point
 app.MapEndpoints();
