@@ -8,10 +8,9 @@
             <FluentLabel Typo="Typography.H4">ログイン</FluentLabel>
             <FluentTextField @bind-Value="name" Label="ID" Class="full-width" />
             <FluentTextField @bind-Value="password" TextFieldType="TextFieldType.Password" Label="パスワード" Class="full-width" />
-            @if (errorMessage is not null)
-            {
+            <Condition Value="HasError">
                 <FluentMessageBar Title="@errorMessage" Intent="MessageIntent.Error" AllowDismiss="false" />
-            }
+            </Condition>
             <FluentButton Appearance="Appearance.Accent" Loading="@processing" OnClick="OnLoginClickAsync" Class="full-width">ログイン</FluentButton>
         </FluentStack>
     </FluentCard>

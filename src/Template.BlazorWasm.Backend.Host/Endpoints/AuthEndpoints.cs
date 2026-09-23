@@ -1,6 +1,6 @@
 namespace Template.BlazorWasm.Backend.Host.Endpoints;
 
-using Template.BlazorWasm.Backend.Host.Infrastructure.Authentication;
+using Template.BlazorWasm.Backend.Host.Application.Authentication;
 using Template.BlazorWasm.Contracts.Auth;
 
 public static class AuthEndpoints
@@ -36,7 +36,7 @@ public static class AuthEndpoints
     private static async ValueTask<IResult> HandleLoginAsync(
         AccountService accountService,
         RefreshTokenService refreshTokenService,
-        TokenService tokenService,
+        JwtTokenProvider tokenProvider,
         AuthSetting setting,
         LoginRequest request)
     {
@@ -46,7 +46,7 @@ public static class AuthEndpoints
             return TypedResults.Unauthorized();
         }
 
-        var (token, expireAt) = tokenService.CreateToken(account.Name, account.Role);
+        var (token, expireAt) = tokenProvider.CreateToken(account.Name, account.Role);
         var refreshToken = await refreshTokenService.IssueAsync(account.Name, setting.RefreshExpireDays);
         return TypedResults.Ok(new LoginResponse(token, expireAt, refreshToken));
     }
@@ -55,7 +55,7 @@ public static class AuthEndpoints
     private static async ValueTask<IResult> HandleRefreshAsync(
         AccountService accountService,
         RefreshTokenService refreshTokenService,
-        TokenService tokenService,
+        JwtTokenProvider tokenProvider,
         AuthSetting setting,
         RefreshRequest request)
     {
@@ -72,7 +72,7 @@ public static class AuthEndpoints
             return TypedResults.Unauthorized();
         }
 
-        var (token, expireAt) = tokenService.CreateToken(account.Name, account.Role);
+        var (token, expireAt) = tokenProvider.CreateToken(account.Name, account.Role);
         var refreshToken = await refreshTokenService.IssueAsync(account.Name, setting.RefreshExpireDays);
         return TypedResults.Ok(new LoginResponse(token, expireAt, refreshToken));
     }

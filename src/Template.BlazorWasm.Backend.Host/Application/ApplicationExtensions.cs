@@ -33,11 +33,12 @@ using Serilog;
 using Smart.Data;
 
 using Template.BlazorWasm.Accessors;
+using Template.BlazorWasm.Backend.Host.Application.Authentication;
+using Template.BlazorWasm.Backend.Host.Application.Context;
+using Template.BlazorWasm.Backend.Host.Application.ExceptionHandling;
+using Template.BlazorWasm.Backend.Host.Application.HealthChecks;
 using Template.BlazorWasm.Backend.Host.Application.Telemetry;
 using Template.BlazorWasm.Backend.Host.Endpoints;
-using Template.BlazorWasm.Backend.Host.Infrastructure.Authentication;
-using Template.BlazorWasm.Backend.Host.Infrastructure.ExceptionHandling;
-using Template.BlazorWasm.Backend.Host.Infrastructure.HealthChecks;
 using Template.BlazorWasm.Backend.Host.Infrastructure.Logging;
 using Template.BlazorWasm.Backend.Host.Infrastructure.Security;
 using Template.BlazorWasm.Infrastructure.Security;
@@ -47,6 +48,8 @@ public static class ApplicationExtensions
 {
     private const string HealthEndpointPath = "/health";
     private const string AlivenessEndpointPath = "/alive";
+    private const string SchemaPath = "Assets/Data/Schema.sql";
+    private const string SystemUserId = "system";
     private const string ApiPathPrefix = "/api";
 
     //--------------------------------------------------------------------------------
@@ -191,8 +194,8 @@ public static class ApplicationExtensions
             app.UseHsts();
         }
 
-        // Headers
-        app.UseMiddleware<SecurityHeadersMiddleware>();
+        // Headers (API のみのためCSPは付けない)
+        app.UseMiddleware<SecurityHeadersMiddleware>(new SecurityHeadersOption());
 
         return app;
     }
@@ -480,8 +483,8 @@ public static class ApplicationExtensions
         builder.Services.AddMemoryCache();
 
         // Storage
-        builder.Services.AddOptions<FileStorageOptions>().BindConfiguration("Storage").ValidateDataAnnotations().ValidateOnStart();
-        builder.Services.AddSingleton(static p => p.GetRequiredService<IOptions<FileStorageOptions>>().Value);
+        builder.Services.AddOptions<FileStorageOption>().BindConfiguration("Storage").ValidateDataAnnotations().ValidateOnStart();
+        builder.Services.AddSingleton(static p => p.GetRequiredService<IOptions<FileStorageOption>>().Value);
         builder.Services.AddSingleton<IStorage, FileStorage>();
 
         // Security
@@ -489,9 +492,12 @@ public static class ApplicationExtensions
         builder.Services.AddSingleton<IPasswordProvider, DefaultPasswordProvider>();
 
         // Token
-        builder.Services.AddSingleton<TokenService>();
+        builder.Services.AddSingleton<JwtTokenProvider>();
 
         // Service
+        builder.Services.AddSingleton<ApplicationServiceContextProvider>();
+        builder.Services.AddSingleton<ServiceContextProvider>(static p => p.GetRequiredService<ApplicationServiceContextProvider>());
+
         builder.Services.AddCoreServices();
 
         // Setting
@@ -583,20 +589,24 @@ public static class ApplicationExtensions
     // Startup
     //--------------------------------------------------------------------------------
 
-    public static ValueTask InitializeApplicationAsync(this WebApplication app)
+    public static async ValueTask InitializeApplicationAsync(this WebApplication app)
     {
         // Prepare instrument
         app.Services.GetRequiredService<ApplicationInstrument>();
 
         // Prepare storage
-        Directory.CreateDirectory(app.Services.GetRequiredService<FileStorageOptions>().Root);
+        Directory.CreateDirectory(app.Services.GetRequiredService<FileStorageOption>().Root);
 
-        // Prepare database
-        app.Services.GetRequiredService<DataService>().CreateTable();
-        app.Services.GetRequiredService<RefreshTokenService>().CreateTable();
+        // Prepare database (schema from the SQL file)
+        await app.Services.GetRequiredService<DatabaseService>().InitializeAsync(SchemaPath, CancellationToken.None);
 
-        var setting = app.Services.GetRequiredService<AuthSetting>();
-        return app.Services.GetRequiredService<AccountService>().InitializeAsync(setting.InitialId, setting.InitialPassword, Roles.Administrator);
+        // Seed initial account (startup has no boundary, so the service context is started here)
+        var timeProvider = app.Services.GetRequiredService<TimeProvider>();
+        using (app.Services.GetRequiredService<ApplicationServiceContextProvider>().Begin(() => new ServiceContext(timeProvider.GetLocalNow(), SystemUserId)))
+        {
+            var option = app.Services.GetRequiredService<AuthSetting>().InitialAccount;
+            await app.Services.GetRequiredService<AccountService>().InitializeAsync(option, Roles.Administrator);
+        }
     }
 
     //--------------------------------------------------------------------------------

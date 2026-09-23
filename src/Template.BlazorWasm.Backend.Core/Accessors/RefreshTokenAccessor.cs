@@ -4,9 +4,6 @@ namespace Template.BlazorWasm.Accessors;
 public sealed partial class RefreshTokenAccessor
 {
     [Execute]
-    public partial void Create();
-
-    [Execute]
     public partial ValueTask<int> InsertAsync(byte[] tokenHash, string accountName, DateTime expireAt, DateTime createdAt);
 
     [QueryFirst]

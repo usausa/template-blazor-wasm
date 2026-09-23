@@ -1,9 +1,10 @@
-namespace Template.BlazorWasm.Backend.Host.Infrastructure.Authentication;
+namespace Template.BlazorWasm.Backend.Host.Application.Authentication;
 
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 
-public sealed class TokenService
+// JWT の発行 (検証側の設定 AuthSetting と同じ値を使う)
+public sealed class JwtTokenProvider
 {
     private static readonly JsonWebTokenHandler Handler = new();
 
@@ -13,7 +14,7 @@ public sealed class TokenService
 
     private readonly SigningCredentials credentials;
 
-    public TokenService(AuthSetting setting, TimeProvider timeProvider)
+    public JwtTokenProvider(AuthSetting setting, TimeProvider timeProvider)
     {
         this.setting = setting;
         this.timeProvider = timeProvider;

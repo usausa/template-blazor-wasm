@@ -11,6 +11,12 @@ public partial class Login
 
     private bool processing;
 
+    private bool HasError => errorMessage is not null;
+
+    //--------------------------------------------------------------------------------
+    // Property
+    //--------------------------------------------------------------------------------
+
     [Inject]
     public required ApiClient ApiClient { get; set; }
 
@@ -25,6 +31,10 @@ public partial class Login
 
     [SupplyParameterFromQuery(Name = "returnUrl")]
     public string? ReturnUrl { get; set; }
+
+    //--------------------------------------------------------------------------------
+    // Action
+    //--------------------------------------------------------------------------------
 
     private async Task OnLoginClickAsync()
     {

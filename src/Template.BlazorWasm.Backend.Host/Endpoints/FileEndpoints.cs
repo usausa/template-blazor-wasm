@@ -1,9 +1,20 @@
 namespace Template.BlazorWasm.Backend.Host.Endpoints;
 
 using Template.BlazorWasm.Backend.Host.Application;
-using Template.BlazorWasm.Backend.Host.Infrastructure.Filters;
-using Template.BlazorWasm.Backend.Host.Models.File;
 using Template.BlazorWasm.Infrastructure.Storage;
+
+//--------------------------------------------------------------------------------
+// Models
+//--------------------------------------------------------------------------------
+
+public sealed class FileListResponse
+{
+    public IReadOnlyList<string> Entries { get; set; } = default!;
+}
+
+//--------------------------------------------------------------------------------
+// Endpoints
+//--------------------------------------------------------------------------------
 
 public static class FileEndpoints
 {
@@ -15,7 +26,17 @@ public static class FileEndpoints
     {
         var group = app.MapApiGroup(ApiRoutes.Files)
             .RequireAuthorization()
-            .AddEndpointFilter<StorageExceptionFilter>();
+            .AddEndpointFilter(static async (context, next) =>
+            {
+                try
+                {
+                    return await next(context);
+                }
+                catch (StorageException)
+                {
+                    return TypedResults.Problem(statusCode: StatusCodes.Status400BadRequest, title: "Invalid path.");
+                }
+            });
 
         group.MapGet("/list/{**path}", HandleListAsync)
             .WithName("ListFiles")
@@ -49,7 +70,7 @@ public static class FileEndpoints
         }
 
         var entries = await storage.ListAsync(path, cancellationToken);
-        return TypedResults.Ok(new FileListResponse(entries));
+        return TypedResults.Ok(new FileListResponse { Entries = entries });
     }
 
     private static async ValueTask<IResult> HandleDownloadAsync(

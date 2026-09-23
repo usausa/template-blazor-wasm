@@ -1,4 +1,4 @@
-namespace Template.BlazorWasm.Backend.Host.Settings;
+namespace Template.BlazorWasm.Backend.Host.Application.Authentication;
 
 public sealed class AuthSetting
 {
@@ -20,8 +20,5 @@ public sealed class AuthSetting
     public int RefreshExpireDays { get; set; }
 
     [Required]
-    public string InitialId { get; set; } = default!;
-
-    [Required]
-    public string InitialPassword { get; set; } = default!;
+    public InitialAccountOption InitialAccount { get; set; } = default!;
 }

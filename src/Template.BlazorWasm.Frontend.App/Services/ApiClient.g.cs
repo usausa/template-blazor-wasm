@@ -1182,8 +1182,7 @@ namespace Template.BlazorWasm.Frontend.App.Services
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("entries")]
-        [System.ComponentModel.DataAnnotations.Required]
-        public System.Collections.Generic.ICollection<string> Entries { get; set; } = new System.Collections.ObjectModel.Collection<string>();
+        public System.Collections.Generic.ICollection<string> Entries { get; set; }
 
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
 

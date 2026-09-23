@@ -22,9 +22,6 @@ public sealed class RefreshTokenService
         this.timeProvider = timeProvider;
     }
 
-    public void CreateTable() =>
-        refreshTokenAccessor.Create();
-
     public async ValueTask<string> IssueAsync(string accountName, int expireDays)
     {
         var now = timeProvider.GetLocalNow().DateTime;
