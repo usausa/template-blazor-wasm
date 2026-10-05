@@ -12,11 +12,14 @@
       "generateClientInterfaces": false,
       "generateDtoTypes": true,
       "excludedTypeNames": [
-        "LoginRequest",
-        "LoginResponse",
-        "RefreshRequest",
-        "DataResponse",
+        "AuthLoginRequest",
+        "AuthLoginResponse",
+        "AuthRefreshRequest",
+        "AuthRefreshResponse",
+        "AuthLogoutRequest",
         "DataListResponse",
+        "DataListEntry",
+        "DataGetResponse",
         "DataCreateRequest",
         "DataCreateResponse",
         "DataUpdateRequest"

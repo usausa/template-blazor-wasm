@@ -48,7 +48,7 @@ public partial class Login
         processing = true;
         try
         {
-            var response = await ApiClient.LoginAsync(new LoginRequest(name, password));
+            var response = await ApiClient.AuthLoginAsync(new AuthLoginRequest(name, password));
             await TokenStore.SetTokenAsync(response.Token, response.RefreshToken);
             AuthenticationStateProvider.NotifyStateChanged();
 

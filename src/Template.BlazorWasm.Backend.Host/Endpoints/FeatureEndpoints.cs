@@ -4,7 +4,7 @@ using Microsoft.FeatureManagement;
 
 using Template.BlazorWasm.Backend.Host.Application;
 
-public sealed record FeatureResponse(bool CustomOption);
+public sealed record FeatureGetResponse(bool CustomOption);
 
 public static class FeatureEndpoints
 {
@@ -17,8 +17,8 @@ public static class FeatureEndpoints
         var group = app.MapApiGroup(ApiRoutes.Features);
 
         group.MapGet("/", HandleGetAsync)
-            .WithName("GetFeatures")
-            .Produces<FeatureResponse>();
+            .WithName("FeatureGet")
+            .Produces<FeatureGetResponse>();
     }
 
     //--------------------------------------------------------------------------------
@@ -26,5 +26,5 @@ public static class FeatureEndpoints
     //--------------------------------------------------------------------------------
 
     private static async ValueTask<IResult> HandleGetAsync(IFeatureManager featureManager) =>
-        TypedResults.Ok(new FeatureResponse(await featureManager.IsEnabledAsync(FeatureFlags.CustomOption)));
+        TypedResults.Ok(new FeatureGetResponse(await featureManager.IsEnabledAsync(FeatureFlags.CustomOption)));
 }

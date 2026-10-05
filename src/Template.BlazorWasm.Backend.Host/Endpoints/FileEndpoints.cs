@@ -26,6 +26,7 @@ public static class FileEndpoints
     {
         var group = app.MapApiGroup(ApiRoutes.Files)
             .RequireAuthorization()
+            .ProducesProblem(StatusCodes.Status401Unauthorized)
             .AddEndpointFilter(static async (context, next) =>
             {
                 try
@@ -36,21 +37,23 @@ public static class FileEndpoints
                 {
                     return TypedResults.Problem(statusCode: StatusCodes.Status400BadRequest, title: "Invalid path.");
                 }
-            });
+            })
+            .ProducesProblem(StatusCodes.Status400BadRequest);
 
         group.MapGet("/list/{**path}", HandleListAsync)
-            .WithName("ListFiles")
+            .WithName("FileList")
             .Produces<FileListResponse>()
-            .Produces(StatusCodes.Status404NotFound);
+            .ProducesProblem(StatusCodes.Status404NotFound);
         group.MapGet("/download/{**path}", HandleDownloadAsync)
-            .WithName("DownloadFile")
-            .Produces(StatusCodes.Status200OK, contentType: "application/octet-stream")
-            .Produces(StatusCodes.Status404NotFound);
+            .WithName("FileDownload")
+            .Produces<Stream>(StatusCodes.Status200OK, "application/octet-stream")
+            .ProducesProblem(StatusCodes.Status404NotFound);
         group.MapDelete("/{**path}", HandleDeleteAsync)
             .RequireAuthorization(Policies.Administrator)
-            .WithName("DeleteFile")
+            .WithName("FileDelete")
             .Produces(StatusCodes.Status204NoContent)
-            .Produces(StatusCodes.Status404NotFound);
+            .ProducesProblem(StatusCodes.Status403Forbidden)
+            .ProducesProblem(StatusCodes.Status404NotFound);
     }
 
     //--------------------------------------------------------------------------------

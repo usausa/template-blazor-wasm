@@ -23,7 +23,7 @@ public partial class MainLayout
             try
             {
                 using var client = HttpClientFactory.CreateClient(ApiClientNames.Refresh);
-                using var response = await client.PostAsJsonAsync(new Uri(ApiPaths.Logout, UriKind.Relative), new RefreshRequest(refreshToken));
+                using var response = await client.PostAsJsonAsync(new Uri(ApiPaths.Logout, UriKind.Relative), new AuthLogoutRequest(refreshToken));
                 _ = response;
             }
             catch (HttpRequestException)

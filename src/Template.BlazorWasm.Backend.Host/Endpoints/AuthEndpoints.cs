@@ -14,19 +14,22 @@ public static class AuthEndpoints
         var group = app.MapApiGroup(ApiRoutes.Auth);
 
         group.MapPost("/login", HandleLoginAsync)
-            .WithName("Login")
+            .WithName("AuthLogin")
             .AllowAnonymous()
-            .Produces<LoginResponse>()
-            .Produces(StatusCodes.Status401Unauthorized);
+            .Produces<AuthLoginResponse>()
+            .ProducesValidationProblem()
+            .ProducesProblem(StatusCodes.Status401Unauthorized);
         group.MapPost("/refresh", HandleRefreshAsync)
-            .WithName("Refresh")
+            .WithName("AuthRefresh")
             .AllowAnonymous()
-            .Produces<LoginResponse>()
-            .Produces(StatusCodes.Status401Unauthorized);
+            .Produces<AuthRefreshResponse>()
+            .ProducesValidationProblem()
+            .ProducesProblem(StatusCodes.Status401Unauthorized);
         group.MapPost("/logout", HandleLogoutAsync)
-            .WithName("Logout")
+            .WithName("AuthLogout")
             .AllowAnonymous()
-            .Produces(StatusCodes.Status204NoContent);
+            .Produces(StatusCodes.Status204NoContent)
+            .ProducesValidationProblem();
     }
 
     //--------------------------------------------------------------------------------
@@ -38,7 +41,7 @@ public static class AuthEndpoints
         RefreshTokenService refreshTokenService,
         JwtTokenProvider tokenProvider,
         AuthSetting setting,
-        LoginRequest request)
+        AuthLoginRequest request)
     {
         var account = await accountService.AuthenticateAsync(request.Name, request.Password);
         if (account is null)
@@ -48,7 +51,7 @@ public static class AuthEndpoints
 
         var (token, expireAt) = tokenProvider.CreateToken(account.Name, account.Role);
         var refreshToken = await refreshTokenService.IssueAsync(account.Name, setting.RefreshExpireDays);
-        return TypedResults.Ok(new LoginResponse(token, expireAt, refreshToken));
+        return TypedResults.Ok(new AuthLoginResponse(token, expireAt, refreshToken));
     }
 
     // リフレッシュトークンは1回限りで、成功時に新しいトークンへ差し替える(ローテーション)
@@ -57,7 +60,7 @@ public static class AuthEndpoints
         RefreshTokenService refreshTokenService,
         JwtTokenProvider tokenProvider,
         AuthSetting setting,
-        RefreshRequest request)
+        AuthRefreshRequest request)
     {
         var name = await refreshTokenService.ConsumeAsync(request.RefreshToken);
         if (name is null)
@@ -74,12 +77,12 @@ public static class AuthEndpoints
 
         var (token, expireAt) = tokenProvider.CreateToken(account.Name, account.Role);
         var refreshToken = await refreshTokenService.IssueAsync(account.Name, setting.RefreshExpireDays);
-        return TypedResults.Ok(new LoginResponse(token, expireAt, refreshToken));
+        return TypedResults.Ok(new AuthRefreshResponse(token, expireAt, refreshToken));
     }
 
     private static async ValueTask<IResult> HandleLogoutAsync(
         RefreshTokenService refreshTokenService,
-        RefreshRequest request)
+        AuthLogoutRequest request)
     {
         await refreshTokenService.RevokeAsync(request.RefreshToken);
         return TypedResults.NoContent();

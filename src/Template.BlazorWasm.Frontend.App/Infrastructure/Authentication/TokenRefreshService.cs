@@ -39,7 +39,7 @@ public sealed class TokenRefreshService : IDisposable
             using var client = httpClientFactory.CreateClient(ApiClientNames.Refresh);
             using var response = await client.PostAsJsonAsync(
                 new Uri(ApiPaths.Refresh, UriKind.Relative),
-                new RefreshRequest(refreshToken),
+                new AuthRefreshRequest(refreshToken),
                 cancellationToken);
             if (!response.IsSuccessStatusCode)
             {
@@ -48,7 +48,7 @@ public sealed class TokenRefreshService : IDisposable
                 return null;
             }
 
-            var body = await response.Content.ReadFromJsonAsync<LoginResponse>(cancellationToken);
+            var body = await response.Content.ReadFromJsonAsync<AuthRefreshResponse>(cancellationToken);
             if (body is null)
             {
                 await tokenStore.ClearAsync();
