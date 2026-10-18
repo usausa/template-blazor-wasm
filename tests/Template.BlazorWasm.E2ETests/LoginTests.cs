@@ -18,8 +18,8 @@ public sealed class LoginTests : E2ETestBase
         await Page.GotoAsync(factory.ServerAddress + "/");
         await Expect(Page).ToHaveURLAsync(new Regex(".*/login.*"));
 
-        await Page.Locator("fluent-text-field input").Nth(0).FillAsync("admin");
-        await Page.Locator("fluent-text-field input").Nth(1).FillAsync("admin");
+        await Page.Locator("fluent-text-input input").Nth(0).FillAsync("admin");
+        await Page.Locator("fluent-text-input input").Nth(1).FillAsync("admin");
         await Page.Locator("fluent-button", new PageLocatorOptions { HasTextString = "ログイン" }).ClickAsync();
 
         // Then
@@ -36,9 +36,9 @@ public sealed class LoginTests : E2ETestBase
 
         // When
         await Page.GotoAsync(factory.ServerAddress + "/login");
-        await Expect(Page.Locator("fluent-text-field input").Nth(0)).ToBeVisibleAsync();
-        await Page.Locator("fluent-text-field input").Nth(0).FillAsync("admin");
-        await Page.Locator("fluent-text-field input").Nth(1).FillAsync("wrong");
+        await Expect(Page.Locator("fluent-text-input input").Nth(0)).ToBeVisibleAsync();
+        await Page.Locator("fluent-text-input input").Nth(0).FillAsync("admin");
+        await Page.Locator("fluent-text-input input").Nth(1).FillAsync("wrong");
         await Page.Locator("fluent-button", new PageLocatorOptions { HasTextString = "ログイン" }).ClickAsync();
 
         // Then

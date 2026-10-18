@@ -5,13 +5,13 @@
 <div class="login-container">
     <FluentCard Width="360px">
         <FluentStack Orientation="Orientation.Vertical" VerticalGap="12">
-            <FluentLabel Typo="Typography.H4">ログイン</FluentLabel>
-            <FluentTextField @bind-Value="name" Label="ID" Class="full-width" />
-            <FluentTextField @bind-Value="password" TextFieldType="TextFieldType.Password" Label="パスワード" Class="full-width" />
+            <FluentText As="TextTag.H4" Size="TextSize.Size500" Weight="TextWeight.Semibold">ログイン</FluentText>
+            <FluentTextInput @bind-Value="name" Label="ID" Width="100%" />
+            <FluentTextInput @bind-Value="password" TextInputType="TextInputType.Password" Label="パスワード" Width="100%" />
             <Condition Value="HasError">
-                <FluentMessageBar Title="@errorMessage" Intent="MessageIntent.Error" AllowDismiss="false" />
+                <FluentMessageBar Title="@errorMessage" Intent="MessageBarIntent.Error" AllowDismiss="false" />
             </Condition>
-            <FluentButton Appearance="Appearance.Accent" Loading="@processing" OnClick="OnLoginClickAsync" Class="full-width">ログイン</FluentButton>
+            <FluentButton Appearance="ButtonAppearance.Primary" Loading="@processing" OnClick="OnLoginClickAsync" Class="full-width">ログイン</FluentButton>
         </FluentStack>
     </FluentCard>
 </div>
