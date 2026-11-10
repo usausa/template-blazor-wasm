@@ -1,25 +1,27 @@
 # Template project for Blazor WebAssembly
 
-## E2E テスト
+English | [日本語](README.ja.md)
 
-E2E(`tests/Template.BlazorWasm.E2ETests`)は Playwright で動かす。日常の実行には含めず、必要なときとリリース前に流す。コマンドはリポジトリ直下の PowerShell で実行する。
+## E2E tests
+
+The E2E tests (`tests/Template.BlazorWasm.E2ETests`) run with Playwright. They are not part of the daily runs, and are run when needed and before releases. Run the commands in PowerShell at the repository root.
 
 ```powershell
-# ブラウザの入手(初回。ビルドで出力されるスクリプトを使う)
+# Get the browsers (first time. Uses the script output by the build)
 dotnet build tests/Template.BlazorWasm.E2ETests
 pwsh tests/Template.BlazorWasm.E2ETests/bin/Debug/net10.0/playwright.ps1 install
 
-# 実行(既定は Chromium・画面なし)
+# Run (Chromium and headless by default)
 dotnet run --project tests/Template.BlazorWasm.E2ETests
 
-# 画面を出して実行
+# Run with the browser shown
 $env:HEADED = "1"; dotnet run --project tests/Template.BlazorWasm.E2ETests; Remove-Item Env:HEADED
 
-# ブラウザを切り替える(chromium / firefox / webkit)
+# Switch the browser (chromium / firefox / webkit)
 $env:BROWSER = "firefox"; dotnet run --project tests/Template.BlazorWasm.E2ETests; Remove-Item Env:BROWSER
 
-# Playwright Inspector で 1 手ずつ実行
+# Run step by step with Playwright Inspector
 $env:PWDEBUG = "1"; dotnet run --project tests/Template.BlazorWasm.E2ETests; Remove-Item Env:PWDEBUG
 ```
 
-- 失敗したテストだけ、操作ごとの画面・DOM・通信・コンソールを記録したトレースを `tests/Template.BlazorWasm.E2ETests/bin/Debug/net10.0/playwright-traces/<テストの表示名>.zip` に残す。`pwsh tests/Template.BlazorWasm.E2ETests/bin/Debug/net10.0/playwright.ps1 show-trace <zip>` か https://trace.playwright.dev で開く
+- Only for failed tests, a trace that records the screen, DOM, network, and console of each action is saved to `tests/Template.BlazorWasm.E2ETests/bin/Debug/net10.0/playwright-traces/<test display name>.zip`. Open it with `pwsh tests/Template.BlazorWasm.E2ETests/bin/Debug/net10.0/playwright.ps1 show-trace <zip>` or https://trace.playwright.dev
