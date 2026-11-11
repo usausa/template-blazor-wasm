@@ -2,26 +2,44 @@
 
 [English](README.md) | 日本語
 
-## E2E テスト
+[Template](https://usausa.github.io/template/) project for Blazor WebAssembly.
 
-E2E(`tests/Template.BlazorWasm.E2ETests`)は Playwright で動かす。日常の実行には含めず、必要なときとリリース前に流す。コマンドはリポジトリ直下の PowerShell で実行する。
+# ✅ 実装
 
-```powershell
-# ブラウザの入手(初回。ビルドで出力されるスクリプトを使う)
-dotnet build tests/Template.BlazorWasm.E2ETests
-pwsh tests/Template.BlazorWasm.E2ETests/bin/Debug/net10.0/playwright.ps1 install
+| 分類 | 機能 |
+| --- | --- |
+| UI | Blazor WebAssembly(ASP.NET Core でホスト) / Fluent UI Blazor / データグリッド(サーバーページング・並べ替え) / ダイアログ(編集・確認) / トースト通知 / エラー境界 |
+| API | Minimal API(`/api`) / OpenAPI(Swagger UI・ReDoc) / API クライアント生成(NSwag) / 共有コントラクト / 検証 / ProblemDetails |
+| 認証 | JWT / リフレッシュトークン(ローテーション) / 401 時の自動更新 / ロールポリシー |
+| データ | SQLite(Smart.Data.Accessor) / ページング・並べ替え・検索 / ファイル保管 API |
+| HTTP | 圧縮(Brotli・Gzip) / セキュリティヘッダー / 転送ヘッダー |
+| 監視 | Serilog / HTTP ログ / W3C ログ / SQL プロファイラー(MiniDataProfiler) / OpenTelemetry(OTLP・Prometheus) / ヘルスチェック |
+| 運用 | 機能フラグ / Windows サービス / systemd / Aspire AppHost |
+| テスト | 単体(xUnit v3・bUnit) / 結合(WebApplicationFactory) / E2E(Playwright) |
 
-# 実行(既定は Chromium・画面なし)
-dotnet run --project tests/Template.BlazorWasm.E2ETests
+# 📚 ドキュメント
 
-# 画面を出して実行
-$env:HEADED = "1"; dotnet run --project tests/Template.BlazorWasm.E2ETests; Remove-Item Env:HEADED
+| ドキュメント | 内容 |
+| --- | --- |
+| [e2e.md](docs/e2e.md) | E2E テスト(Playwright) |
 
-# ブラウザを切り替える(chromium / firefox / webkit)
-$env:BROWSER = "firefox"; dotnet run --project tests/Template.BlazorWasm.E2ETests; Remove-Item Env:BROWSER
+# 🔗 関連プロジェクト
 
-# Playwright Inspector で 1 手ずつ実行
-$env:PWDEBUG = "1"; dotnet run --project tests/Template.BlazorWasm.E2ETests; Remove-Item Env:PWDEBUG
-```
+| プロジェクト | 説明 |
+| --- | --- |
+| [template-web-api](https://github.com/usausa/template-web-api) | Web API のテンプレート(Minimal API) |
+| [template-web-fullstack](https://github.com/usausa/template-web-fullstack) | フルスタック構成のテンプレート |
+| [template-web-mvc](https://github.com/usausa/template-web-mvc) | ASP.NET Core MVC のテンプレート(Identity・パスキー) |
+| [template-blazor-server](https://github.com/usausa/template-blazor-server) | Blazor Server アプリのテンプレート |
+| [template-blazor-wasm-oidc](https://github.com/usausa/template-blazor-wasm-oidc) | OIDC を使う Blazor WebAssembly のテンプレート |
+| [template-grpc-server](https://github.com/usausa/template-grpc-server) | gRPC サーバーのテンプレート |
 
-- 失敗したテストだけ、操作ごとの画面・DOM・通信・コンソールを記録したトレースを `tests/Template.BlazorWasm.E2ETests/bin/Debug/net10.0/playwright-traces/<テストの表示名>.zip` に残す。`pwsh tests/Template.BlazorWasm.E2ETests/bin/Debug/net10.0/playwright.ps1 show-trace <zip>` か https://trace.playwright.dev で開く
+# 📦 自作ライブラリ
+
+| ライブラリ | 説明 |
+| --- | --- |
+| [Usa.Smart.Blazor](https://github.com/usausa/Smart-Net-Blazor) | Blazor ヘルパー |
+| [Usa.Smart.Data.Accessor](https://github.com/usausa/Smart-Net-Data-Accessor) | データアクセス |
+| [Usa.Smart.Mapper](https://github.com/usausa/Smart-Net-Mapper) | オブジェクトマッパー |
+| [MiniDataProfiler](https://github.com/usausa/mini-data-profiler) | SQL プロファイラー |
+| [BunnyTail.ServiceRegistration](https://github.com/usausa/bunnytail-service-registration) | サービス登録 |
