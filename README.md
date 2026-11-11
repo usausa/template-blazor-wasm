@@ -1,7 +1,5 @@
 # Template project for Blazor WebAssembly
 
-English | [日本語](README.ja.md)
-
 [Template](https://usausa.github.io/template/) project for Blazor WebAssembly.
 
 # ✅ Implement
